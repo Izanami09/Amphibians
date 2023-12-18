@@ -70,4 +70,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
     //coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    //serialization for retrofit
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }

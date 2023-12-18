@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -30,11 +33,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -49,7 +52,13 @@ android {
     }
 }
 
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
+    val lifecycle_version = "2.6.2"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -74,4 +83,19 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     //serialization for retrofit
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+
+    //dagger hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+
+    kapt ("androidx.hilt:hilt-compiler:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+
+    //viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
+
 }

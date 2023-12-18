@@ -1,7 +1,5 @@
 package com.example.amphibians.ui.screens.homescreen
 
-import android.provider.CalendarContract.Colors
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,16 +11,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,14 +26,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.amphibians.R
-import com.example.amphibians.data.Amphibian
+import com.example.amphibians.model.Amphibian
+import com.example.amphibians.ui.AmphibianAppUiState
+import com.example.amphibians.ui.screens.AmphibianViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    listAmphibian: List<Amphibian>
+    amphibianViewModel: AmphibianViewModel,
 ) {
+    val amphibianAppUiState by amphibianViewModel.uiState.collectAsState()
     //Creating centre aligned top app bar
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
@@ -48,7 +46,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
 
     ) {
-        AmphibianScrollableList(listAmphibian = listAmphibian, modifier = Modifier
+        AmphibianScrollableList(listAmphibian = amphibianAppUiState.listOfAmphibiansInformation, modifier = Modifier
             .padding(it)
             .fillMaxSize())
     }
@@ -77,8 +75,10 @@ fun AmphibianPreviewCard(
                     .data(amphibian.imgSrc)
                     .crossfade(true)
                     .build(),
+                error = painterResource(id = R.mipmap.error_icon),
                 contentDescription = amphibian.name,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = R.drawable.downloading_icon_foreground)
 
             )
             Text(text = amphibian.name)
@@ -111,7 +111,5 @@ fun AmphibianScrollableList(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(listAmphibian =    listOf( Amphibian("Aman", "Reptile", "Gaida Sala", "https://images.rawpixel.com/image_png_400/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA5L3Jhd3BpeGVsb2ZmaWNlM19pbGx1c3RyYXRpb25fb2ZfYW5fZWxlcGhhbnRfX2lzb2xhdGVkX29uX3doaXRlX18xZjllNDY2Ni02OThiLTQzNjAtOGQwZS00NjU3N2IzMDIwOThfMS5wbmc.png"),
-        Amphibian("Aman", "Reptile", "Gaida Sala", "https://images.rawpixel.com/image_png_400/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA5L3Jhd3BpeGVsb2ZmaWNlM19pbGx1c3RyYXRpb25fb2ZfYW5fZWxlcGhhbnRfX2lzb2xhdGVkX29uX3doaXRlX18xZjllNDY2Ni02OThiLTQzNjAtOGQwZS00NjU3N2IzMDIwOThfMS5wbmc.png"),
-        Amphibian("Aman", "Reptile", "Gaida Sala", "https://images.rawpixel.com/image_png_400/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA5L3Jhd3BpeGVsb2ZmaWNlM19pbGx1c3RyYXRpb25fb2ZfYW5fZWxlcGhhbnRfX2lzb2xhdGVkX29uX3doaXRlX18xZjllNDY2Ni02OThiLTQzNjAtOGQwZS00NjU3N2IzMDIwOThfMS5wbmc.png")))
+    //HomeScreen()
 }
